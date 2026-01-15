@@ -7,11 +7,9 @@
 
 import os
 
-import aiohttp
 from dotenv import load_dotenv
 from loguru import logger
 
-from pipecat.audio.turn.smart_turn.fal_smart_turn import FalSmartTurnAnalyzer
 from pipecat.audio.vad.silero import SileroVADAnalyzer
 from pipecat.audio.vad.vad_analyzer import VADParams
 from pipecat.frames.frames import LLMRunFrame
@@ -26,16 +24,16 @@ from pipecat.processors.aggregators.llm_response_universal import (
 from pipecat.runner.types import RunnerArguments
 from pipecat.runner.utils import create_transport
 from pipecat.services.cartesia.tts import CartesiaTTSService
-from pipecat.services.deepgram.stt import DeepgramSTTService
+from pipecat.services.gladia.config import GladiaInputParams, LanguageConfig
+from pipecat.services.gladia.stt import GladiaSTTService
 from pipecat.services.openai.llm import OpenAILLMService
+from pipecat.transcriptions.language import Language
 from pipecat.transports.base_transport import BaseTransport, TransportParams
 from pipecat.transports.daily.transport import DailyParams
 from pipecat.transports.websocket.fastapi import FastAPIWebsocketParams
-from pipecat.turns.user_stop import TurnAnalyzerUserTurnStopStrategy
-from pipecat.turns.user_turn_strategies import UserTurnStrategies
+from pipecat.turns.user_turn_strategies import ExternalUserTurnStrategies
 
 load_dotenv(override=True)
-
 
 # We store functions so objects (e.g. SileroVADAnalyzer) don't get
 # instantiated. The function will be called when the desired transport gets
@@ -62,43 +60,41 @@ transport_params = {
 async def run_bot(transport: BaseTransport, runner_args: RunnerArguments):
     logger.info(f"Starting bot")
 
-    stt = DeepgramSTTService(api_key=os.getenv("DEEPGRAM_API_KEY"))
+    stt = GladiaSTTService(
+        api_key=os.getenv("GLADIA_API_KEY", ""),
+        region=os.getenv("GLADIA_REGION"),
+        params=GladiaInputParams(
+            language_config=LanguageConfig(
+                languages=[Language.EN],
+            ),
+            enable_vad=True,
+        ),
+    )
 
     tts = CartesiaTTSService(
-        api_key=os.getenv("CARTESIA_API_KEY"),
+        api_key=os.getenv("CARTESIA_API_KEY", ""),
         voice_id="71a7ad14-091c-4e8e-a314-022ece01c121",  # British Reading Lady
     )
 
-    llm = OpenAILLMService(api_key=os.getenv("OPENAI_API_KEY"))
+    llm = OpenAILLMService(api_key=os.getenv("OPENAI_API_KEY", ""))
 
     messages = [
         {
             "role": "system",
-            "content": "You are a helpful LLM in a WebRTC call. Your goal is to demonstrate your capabilities in a succinct way. Your output will be spoken aloud, so avoid special characters that can't easily be spoken, such as emojis or bullet points. Respond to what the user said in a creative and helpful way.",
+            "content": f"You are a helpful LLM. Your goal is to demonstrate your capabilities in a succinct way. Your output will be spoken aloud, so avoid special characters that can't easily be spoken, such as emojis or bullet points. Respond to what the user said in a creative and helpful way.",
         },
     ]
 
     context = LLMContext(messages)
     user_aggregator, assistant_aggregator = LLMContextAggregatorPair(
         context,
-        user_params=LLMUserAggregatorParams(
-            user_turn_strategies=UserTurnStrategies(
-                stop=[
-                    TurnAnalyzerUserTurnStopStrategy(
-                        turn_analyzer=FalSmartTurnAnalyzer(
-                            api_key=os.getenv("FAL_SMART_TURN_API_KEY"),
-                            aiohttp_session=aiohttp.ClientSession(),
-                        )
-                    )
-                ]
-            ),
-        ),
+        user_params=LLMUserAggregatorParams(user_turn_strategies=ExternalUserTurnStrategies()),
     )
 
     pipeline = Pipeline(
         [
             transport.input(),  # Transport user input
-            stt,
+            stt,  # STT
             user_aggregator,  # User responses
             llm,  # LLM
             tts,  # TTS
@@ -129,7 +125,6 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments):
         await task.cancel()
 
     runner = PipelineRunner(handle_sigint=runner_args.handle_sigint)
-
     await runner.run(task)
 
 
