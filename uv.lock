@@ -4981,6 +4981,7 @@ soundfile = [
     { name = "soundfile" },
 ]
 speechmatics = [
+    { name = "speechmatics-rt" },
     { name = "speechmatics-voice", extra = ["smart"] },
 ]
 strands = [
@@ -5132,7 +5133,8 @@ requires-dist = [
     { name = "simli-ai", marker = "extra == 'simli'", specifier = "~=2.0.1" },
     { name = "soundfile", marker = "extra == 'soundfile'", specifier = "~=0.13.1" },
     { name = "soxr", specifier = "~=1.0.0" },
-    { name = "speechmatics-voice", extras = ["smart"], marker = "extra == 'speechmatics'", specifier = "~=0.2.8" },
+    { name = "speechmatics-rt", marker = "extra == 'speechmatics'", specifier = "==1.1.1rc1" },
+    { name = "speechmatics-voice", extras = ["smart"], marker = "extra == 'speechmatics'", specifier = "==0.2.9rc4" },
     { name = "strands-agents", marker = "extra == 'strands'", specifier = ">=1.9.1,<2" },
     { name = "tenacity", marker = "extra == 'livekit'", specifier = ">=8.2.3,<10.0.0" },
     { name = "timm", marker = "extra == 'moondream'", specifier = "~=1.0.13" },
@@ -7233,19 +7235,20 @@ wheels = [
 
 [[package]]
 name = "speechmatics-rt"
-version = "1.0.0"
+version = "1.1.1rc1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
+    { name = "typing-extensions" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/cc/d4/51ea939b00b2e917a88fec02d8a966716d286f44090af823074a094d9e6b/speechmatics_rt-1.0.0.tar.gz", hash = "sha256:a9dffbd8e8f800e2d7362acb0244fc9ff3ec350c9d8b9c9170339c7c6ca837e1", size = 28100, upload-time = "2026-03-19T10:47:39.106Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f4/6f/464cc690d895a56020e2904de44089551643a284026b3d04ed111f870567/speechmatics_rt-1.1.1rc1.tar.gz", hash = "sha256:6da5ca9a771a355d7daf10e7e32d722937dfde5cb112506082fb16e88424bae4", size = 32015, upload-time = "2026-07-24T11:49:34.072Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2d/44/657b21ca91ae258980b02b680d1d339031db02473e539fb947b6cac62605/speechmatics_rt-1.0.0-py3-none-any.whl", hash = "sha256:fa368c63f07427976bbe93aaed2f6c6c59697207c52cfd05533ae09c0ce32e2e", size = 34088, upload-time = "2026-03-19T10:47:38.068Z" },
+    { url = "https://files.pythonhosted.org/packages/1d/0d/54b1f7542b651fc03dfa40e6eaf4f7dbae945409dd9e04a61938249d5c60/speechmatics_rt-1.1.1rc1-py3-none-any.whl", hash = "sha256:90b86b6dc3b9d04ea9426a5b28771bd438b7b628f2a5bd2fda2c4e8add9e76e6", size = 38247, upload-time = "2026-07-24T11:49:32.773Z" },
 ]
 
 [[package]]
 name = "speechmatics-voice"
-version = "0.2.8"
+version = "0.2.9rc4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
@@ -7253,9 +7256,9 @@ dependencies = [
     { name = "pydantic", version = "2.13.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version != '3.13.*'" },
     { name = "speechmatics-rt" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e4/b2/72b5b2203bbefbd22e7692adaca0dd7c2feebed1aaea5599ec579f74fbbf/speechmatics_voice-0.2.8.tar.gz", hash = "sha256:b2d9cbf773fd94400c744734662e2b16b5bdc4271d0dafde46ac032c438fe000", size = 61419, upload-time = "2026-01-26T16:26:09.082Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/46/24/8144a9b11c20c6d093a1a5e4fc4ede7935837212e233f09019a19a3465d0/speechmatics_voice-0.2.9rc4.tar.gz", hash = "sha256:44184fddaf72bf8f978fade220be5c1ab40ccf37f29e1d1642c96d70e4b5a3f2", size = 63517, upload-time = "2026-07-24T11:29:13.261Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/89/2d/a2ab215a7a31fad5ef9267420dc9ced96d6d52e5b80b131ef41424607849/speechmatics_voice-0.2.8-py3-none-any.whl", hash = "sha256:423ac7620ae8c98f175faace2184ac4ab1fe448ffb41af57aae05ec655326f79", size = 57629, upload-time = "2026-01-26T16:26:07.59Z" },
+    { url = "https://files.pythonhosted.org/packages/94/86/be91742f2eab23fb682e28574655aa63a9ff0ff2d34ad957a6fbdbc552ff/speechmatics_voice-0.2.9rc4-py3-none-any.whl", hash = "sha256:9448c311d594da039a1ef454ab39255c6ce03984880d7f975335e387e3c52d18", size = 59869, upload-time = "2026-07-24T11:29:12.124Z" },
 ]
 
 [package.optional-dependencies]

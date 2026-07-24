@@ -43,6 +43,7 @@ from pipecat.utils.deprecation import deprecated
 from pipecat.utils.tracing.service_decorators import traced_stt
 
 try:
+    from speechmatics.rt import Model
     from speechmatics.voice import (
         AdditionalVocabEntry,
         AgentClientMessageType,
@@ -186,6 +187,7 @@ class SpeechmaticsSTTService(STTService):
     # Export related classes as class attributes
     TurnDetectionMode = TurnDetectionMode
     AudioEncoding = AudioEncoding
+    Model = Model
     OperatingPoint = OperatingPoint
     SpeakerFocusMode = SpeakerFocusMode
     SpeakerFocusConfig = SpeakerFocusConfig
@@ -252,7 +254,9 @@ class SpeechmaticsSTTService(STTService):
             audio_encoding: Audio encoding format. Defaults to AudioEncoding.PCM_S16LE.
 
             operating_point: Operating point for transcription accuracy vs. latency tradeoff. It is
-                recommended to use OperatingPoint.ENHANCED for most use cases. Default to enhanced.
+                recommended to use OperatingPoint.ENHANCED for most use cases. Defaults to enhanced.
+                Note: the underlying SDK deprecated `operating_point` in favour of `model`; this
+                value is mapped onto the engine's `model` internally.
 
             max_delay: Maximum delay in seconds for transcription. This forces the STT engine to
                 speed up the processing of transcribed words and reduces the interval between partial
@@ -509,7 +513,7 @@ class SpeechmaticsSTTService(STTService):
         self._client: VoiceAgentClient | None = None
         self._audio_encoding = encoding
         self._config: VoiceAgentConfig = self._build_config(default_settings)
-        default_settings.model = self._config.operating_point.value
+        default_settings.model = self._config.model.value
 
         super().__init__(
             sample_rate=sample_rate,
@@ -774,9 +778,15 @@ class SpeechmaticsSTTService(STTService):
         # Custom dictionary
         config.additional_vocab = s.additional_vocab if s.additional_vocab is not None else []
 
+        # Model selection. The SDK deprecated `operating_point` in favour of `model` and rejects
+        # setting both. The preset already sets `config.model`, so map any requested operating point
+        # onto `config.model` here and never set `config.operating_point`.
+        operating_point = s.operating_point
+        if is_given(operating_point) and operating_point is not None:
+            config.model = Model(operating_point.value)
+
         # Advanced parameters — only set if not None
         for param in [
-            "operating_point",
             "max_delay",
             "end_of_utterance_silence_trigger",
             "end_of_utterance_max_delay",
