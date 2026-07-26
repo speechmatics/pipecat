@@ -5133,8 +5133,8 @@ requires-dist = [
     { name = "simli-ai", marker = "extra == 'simli'", specifier = "~=2.0.1" },
     { name = "soundfile", marker = "extra == 'soundfile'", specifier = "~=0.13.1" },
     { name = "soxr", specifier = "~=1.0.0" },
-    { name = "speechmatics-rt", marker = "extra == 'speechmatics'", specifier = "==1.1.1rc1" },
-    { name = "speechmatics-voice", extras = ["smart"], marker = "extra == 'speechmatics'", specifier = "==0.2.9rc4" },
+    { name = "speechmatics-rt", marker = "extra == 'speechmatics'", specifier = "==1.2.0b1" },
+    { name = "speechmatics-voice", extras = ["smart"], marker = "extra == 'speechmatics'", specifier = "==0.3.0b2" },
     { name = "strands-agents", marker = "extra == 'strands'", specifier = ">=1.9.1,<2" },
     { name = "tenacity", marker = "extra == 'livekit'", specifier = ">=8.2.3,<10.0.0" },
     { name = "timm", marker = "extra == 'moondream'", specifier = "~=1.0.13" },
@@ -7235,20 +7235,20 @@ wheels = [
 
 [[package]]
 name = "speechmatics-rt"
-version = "1.1.1rc1"
+version = "1.2.0b1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "typing-extensions" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f4/6f/464cc690d895a56020e2904de44089551643a284026b3d04ed111f870567/speechmatics_rt-1.1.1rc1.tar.gz", hash = "sha256:6da5ca9a771a355d7daf10e7e32d722937dfde5cb112506082fb16e88424bae4", size = 32015, upload-time = "2026-07-24T11:49:34.072Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e8/f1/082c22f1bcc16ebdd4517fdc6d34ea3aa61194da9528e330019e335184da/speechmatics_rt-1.2.0b1.tar.gz", hash = "sha256:1e0755f454e67aae007847c507a3c9a975f74cd416d2bf2b86889bc3745523f3", size = 32172, upload-time = "2026-07-26T10:16:24.234Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1d/0d/54b1f7542b651fc03dfa40e6eaf4f7dbae945409dd9e04a61938249d5c60/speechmatics_rt-1.1.1rc1-py3-none-any.whl", hash = "sha256:90b86b6dc3b9d04ea9426a5b28771bd438b7b628f2a5bd2fda2c4e8add9e76e6", size = 38247, upload-time = "2026-07-24T11:49:32.773Z" },
+    { url = "https://files.pythonhosted.org/packages/97/fb/d66f3ddf07871a3425cb009b2302499a3e9425aed3326155abfb9aa685d4/speechmatics_rt-1.2.0b1-py3-none-any.whl", hash = "sha256:e3cd1fbc9352754ebc6573bffca138c56f39a1e96a22cceb3c8e232b52cdb81f", size = 38391, upload-time = "2026-07-26T10:16:23.406Z" },
 ]
 
 [[package]]
 name = "speechmatics-voice"
-version = "0.2.9rc4"
+version = "0.3.0b2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
@@ -7256,9 +7256,9 @@ dependencies = [
     { name = "pydantic", version = "2.13.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version != '3.13.*'" },
     { name = "speechmatics-rt" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/46/24/8144a9b11c20c6d093a1a5e4fc4ede7935837212e233f09019a19a3465d0/speechmatics_voice-0.2.9rc4.tar.gz", hash = "sha256:44184fddaf72bf8f978fade220be5c1ab40ccf37f29e1d1642c96d70e4b5a3f2", size = 63517, upload-time = "2026-07-24T11:29:13.261Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8b/27/b7a4c7a424af550c18a8d81281382626193150e6abbd7cc3afbaf7fe90ce/speechmatics_voice-0.3.0b2.tar.gz", hash = "sha256:0e6ad0aa732e996743cfd1117cf41f4c4635869bfe537728dfba2334e7f5887c", size = 63699, upload-time = "2026-07-26T10:27:15.015Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/94/86/be91742f2eab23fb682e28574655aa63a9ff0ff2d34ad957a6fbdbc552ff/speechmatics_voice-0.2.9rc4-py3-none-any.whl", hash = "sha256:9448c311d594da039a1ef454ab39255c6ce03984880d7f975335e387e3c52d18", size = 59869, upload-time = "2026-07-24T11:29:12.124Z" },
+    { url = "https://files.pythonhosted.org/packages/89/25/2efd1ba0fb18893281e6af813799684687d21def52d6c48d1eebfa94e1cd/speechmatics_voice-0.3.0b2-py3-none-any.whl", hash = "sha256:7305be24fb368ee007c88f1094adce4d2b243e5c8b83ea4aa30c4651eb661ba9", size = 60051, upload-time = "2026-07-26T10:27:13.926Z" },
 ]
 
 [package.optional-dependencies]
